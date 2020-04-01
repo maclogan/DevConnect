@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
-  // Create a reference to the User model since every profile is associated with a user
   user: {
-    type: mongoose.Schema.Types.ObjectId, // Associates with the _id from the User Schema
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
   company: {
@@ -21,7 +20,7 @@ const ProfileSchema = new mongoose.Schema({
   },
   skills: {
     type: [String],
-    require: true
+    required: true
   },
   bio: {
     type: String
@@ -74,7 +73,7 @@ const ProfileSchema = new mongoose.Schema({
       },
       from: {
         type: Date,
-        requried: true
+        required: true
       },
       to: {
         type: Date
