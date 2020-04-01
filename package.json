@@ -1,6 +1,10 @@
 {
   "name": "devconnector",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.x",
+    "npm": "6.x"
+  }
   "description": "Social network for developers",
   "main": "server.js",
   "scripts": {
