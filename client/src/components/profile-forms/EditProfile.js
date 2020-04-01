@@ -4,48 +4,61 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
+const initialState = {
+  company: '',
+  website: '',
+  location: '',
+  status: '',
+  skills: '',
+  githubusername: '',
+  bio: '',
+  twitter: '',
+  facebook: '',
+  linkedin: '',
+  youtube: '',
+  instagram: ''
+};
+
 const EditProfile = ({
   profile: { profile, loading },
   createProfile,
   getCurrentProfile,
   history
 }) => {
-  const [formData, setFormData] = useState({
-    company: '',
-    website: '',
-    location: '',
-    status: '',
-    skills: '',
-    githubusername: '',
-    bio: '',
-    twitter: '',
-    facebook: '',
-    linkedin: '',
-    youtube: '',
-    instagram: ''
-  });
+  const [formData, setFormData] = useState(initialState);
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
-    getCurrentProfile();
+    if (!profile) getCurrentProfile();
 
-    setFormData({
-      company: loading || !profile.company ? '' : profile.company,
-      website: loading || !profile.website ? '' : profile.website,
-      location: loading || !profile.location ? '' : profile.location,
-      status: loading || !profile.status ? '' : profile.status,
-      skills: loading || !profile.skills ? '' : profile.skills.join(','),
-      githubusername:
-        loading || !profile.githubusername ? '' : profile.githubusername,
-      bio: loading || !profile.bio ? '' : profile.bio,
-      twitter: loading || !profile.social ? '' : profile.social.twitter,
-      facebook: loading || !profile.social ? '' : profile.social.facebook,
-      linkedin: loading || !profile.social ? '' : profile.social.linkedin,
-      youtube: loading || !profile.social ? '' : profile.social.youtube,
-      instagram: loading || !profile.social ? '' : profile.social.instagram
-    });
-  }, [loading]);
+    // setFormData({
+    //   company: loading || !profile.company ? '' : profile.company,
+    //   website: loading || !profile.website ? '' : profile.website,
+    //   location: loading || !profile.location ? '' : profile.location,
+    //   status: loading || !profile.status ? '' : profile.status,
+    //   skills: loading || !profile.skills ? '' : profile.skills.join(','),
+    //   githubusername:
+    //     loading || !profile.githubusername ? '' : profile.githubusername,
+    //   bio: loading || !profile.bio ? '' : profile.bio,
+    //   twitter: loading || !profile.social ? '' : profile.social.twitter,
+    //   facebook: loading || !profile.social ? '' : profile.social.facebook,
+    //   linkedin: loading || !profile.social ? '' : profile.social.linkedin,
+    //   youtube: loading || !profile.social ? '' : profile.social.youtube,
+    //   instagram: loading || !profile.social ? '' : profile.social.instagram
+    // });
+
+    if (!loading) {
+      const profileData = { ...initialState };
+      for (const key in profile) {
+        if (key in profile) profileData[key] = profile[key];
+      }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
+      }
+      setFormData(profileData);
+    }
+  }, [loading, getCurrentProfile, profile]);
 
   const {
     company,
@@ -181,7 +194,7 @@ const EditProfile = ({
         {displaySocialInputs && (
           <Fragment>
             <div className="form-group social-input">
-              <i className="fab fa-twitter fa-2x"></i>
+              <i className="fa fa-twitter fa-2x"></i>
               <input
                 type="text"
                 placeholder="Twitter URL"
@@ -192,7 +205,7 @@ const EditProfile = ({
             </div>
 
             <div className="form-group social-input">
-              <i className="fab fa-facebook fa-2x"></i>
+              <i className="fa fa-facebook fa-2x"></i>
               <input
                 type="text"
                 placeholder="Facebook URL"
@@ -203,7 +216,7 @@ const EditProfile = ({
             </div>
 
             <div className="form-group social-input">
-              <i className="fab fa-youtube fa-2x"></i>
+              <i className="fa fa-youtube fa-2x"></i>
               <input
                 type="text"
                 placeholder="YouTube URL"
@@ -214,7 +227,7 @@ const EditProfile = ({
             </div>
 
             <div className="form-group social-input">
-              <i className="fab fa-linkedin fa-2x"></i>
+              <i className="fa fa-linkedin fa-2x"></i>
               <input
                 type="text"
                 placeholder="Linkedin URL"
@@ -225,7 +238,7 @@ const EditProfile = ({
             </div>
 
             <div className="form-group social-input">
-              <i className="fab fa-instagram fa-2x"></i>
+              <i className="fa fa-instagram fa-2x"></i>
               <input
                 type="text"
                 placeholder="Instagram URL"
